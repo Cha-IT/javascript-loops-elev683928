@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Solutions</title>
+</head>
+<body>
+    <h1>Interactive Solutions</h1>
+
+    <h2>1. While/For Loop Example</h2>
+    <div>
+        <button onclick="showLoop()">Show Loop</button>
+        <p id="loopOutput"></p>
+    </div>
+
+    <h2>2. Password Attempts</h2>
+    <div>
+        <button onclick="checkPassword()">Enter Password</button>
+        <p id="passwordOutput"></p>
+    </div>
+
+    <h2>3. Odd/Even Numbers from 0 to 100</h2>
+    <div>
+        <button onclick="showOddEven()">Show Odd/Even</button>
+        <p id="oddEvenOutput"></p>
+    </div>
+
+    <h2>4. Multiplication Table</h2>
+    <div>
+        <button onclick="showMultiplicationTable()">Show Multiplication Table</button>
+        <pre id="multiplicationTableOutput"></pre>
+    </div>
+
+    <script>
+        function showLoop() {
+            let output = '';
+            for (let i = 1; i <= 10; i++) {
+                output += 'Number: ' + i + '<br>';
+            }
+            document.getElementById('loopOutput').innerHTML = output;
+        }
+
+        function checkPassword() {
+            const correctPassword = 'password123';
+            let attempts = 0;
+            while (attempts < 3) {
+                let userPassword = prompt('Enter password:');
+                if (userPassword === correctPassword) {
+                    document.getElementById('passwordOutput').innerText = 'Access Granted!';
+                    return;
+                }
+                attempts++;
+            }
+            document.getElementById('passwordOutput').innerText = 'Access Denied! Too many attempts.';
+        }
+
+        function showOddEven() {
+            let output = '';
+            for (let i = 0; i <= 100; i++) {
+                output += i + (i % 2 === 0 ? ' is even' : ' is odd') + '<br>';
+            }
+            document.getElementById('oddEvenOutput').innerHTML = output;
+        }
+
+        function showMultiplicationTable() {
+            let output = '';
+            for (let i = 1; i <= 10; i++) {
+                for (let j = 1; j <= 10; j++) {
+                    output += (i * j) + '\t';
+                }
+                output += '\n';
+            }
+            document.getElementById('multiplicationTableOutput').innerText = output;
+        }
+    </script>
+</body>
+</html>
