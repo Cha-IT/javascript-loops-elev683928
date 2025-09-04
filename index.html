@@ -1,78 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Solutions</title>
+  <meta charset="UTF-8">
+  <title>Oppgaver med løkker</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; }
+    section { background: #fff; padding: 1.5em; margin-bottom: 2em; border-radius: 8px; box-shadow: 0 2px 6px #ccc; }
+    h2 { margin-top: 0; }
+    button { margin: 0.5em 0; }
+    .output { background: #eee; padding: 0.75em; margin-top: 1em; border-radius: 4px; white-space: pre-wrap; font-family: monospace; }
+    label, input { margin-top: 0.5em; }
+  </style>
 </head>
 <body>
-    <h1>Interactive Solutions</h1>
+  <h1>Oppgaver med løkker</h1>
 
-    <h2>1. While/For Loop Example</h2>
-    <div>
-        <button onclick="showLoop()">Show Loop</button>
-        <p id="loopOutput"></p>
-    </div>
+  <section id="oppgave1">
+    <h2>Oppgave 1: Telle fra 1 til 10</h2>
+    <button onclick="whileLoopOutput()">Vis med while-løkke</button>
+    <button onclick="forLoopOutput()">Vis med for-løkke</button>
+    <div class="output" id="output1"></div>
+  </section>
 
-    <h2>2. Password Attempts</h2>
-    <div>
-        <button onclick="checkPassword()">Enter Password</button>
-        <p id="passwordOutput"></p>
-    </div>
+  <section id="oppgave2">
+    <h2>Oppgave 2: Passord</h2>
+    <button onclick="passwordInfinite()">Skriv inn passord (ubegrenset forsøk)</button>
+    <button onclick="passwordLimited()">Skriv inn passord (maks 3 forsøk)</button>
+    <div class="output" id="output2"></div>
+  </section>
 
-    <h2>3. Odd/Even Numbers from 0 to 100</h2>
-    <div>
-        <button onclick="showOddEven()">Show Odd/Even</button>
-        <p id="oddEvenOutput"></p>
-    </div>
+  <section id="oppgave3">
+    <h2>Oppgave 3: Oddetall og partall</h2>
+    <label>
+      <input type="radio" name="valg" value="oddetall" checked> Oddetall
+    </label>
+    <label>
+      <input type="radio" name="valg" value="partall"> Partall
+    </label>
+    <button onclick="oddEvenOutput()">Vis tall</button>
+    <div class="output" id="output3"></div>
+  </section>
 
-    <h2>4. Multiplication Table</h2>
-    <div>
-        <button onclick="showMultiplicationTable()">Show Multiplication Table</button>
-        <pre id="multiplicationTableOutput"></pre>
-    </div>
+  <section id="oppgave4">
+    <h2>Oppgave 4: Gangetabellen</h2>
+    <button onclick="gangetabellOutput()">Vis gangetabellen (1-10)</button>
+    <div class="output" id="output4"></div>
+  </section>
 
-    <script>
-        function showLoop() {
-            let output = '';
-            for (let i = 1; i <= 10; i++) {
-                output += 'Number: ' + i + '<br>';
-            }
-            document.getElementById('loopOutput').innerHTML = output;
+  <script>
+    // Oppgave 1a
+    function whileLoopOutput() {
+      let i = 1, result = "";
+      while (i <= 10) {
+        result += i + " ";
+        i++;
+      }
+      document.getElementById("output1").textContent = "While-løkke:\n" + result.trim();
+    }
+
+    // Oppgave 1b
+    function forLoopOutput() {
+      let result = "";
+      for (let i = 1; i <= 10; i++) {
+        result += i + " ";
+      }
+      document.getElementById("output1").textContent = "For-løkke:\n" + result.trim();
+    }
+
+    // Oppgave 2a
+    function passwordInfinite() {
+      const riktigPassord = "Passord123";
+      let output = "";
+      let passord;
+      do {
+        passord = prompt("Skriv inn passord:");
+        if (passord !== null && passord !== riktigPassord) {
+          output += "Feil passord! Prøv igjen.\n";
         }
+      } while (passord !== null && passord !== riktigPassord);
 
-        function checkPassword() {
-            const correctPassword = 'password123';
-            let attempts = 0;
-            while (attempts < 3) {
-                let userPassword = prompt('Enter password:');
-                if (userPassword === correctPassword) {
-                    document.getElementById('passwordOutput').innerText = 'Access Granted!';
-                    return;
-                }
-                attempts++;
-            }
-            document.getElementById('passwordOutput').innerText = 'Access Denied! Too many attempts.';
-        }
+      if (passord === riktigPassord) {
+        output += "Riktig passord!";
+      } else {
+        output += "Avbrutt.";
+      }
+      document.getElementById("output2").textContent = output;
+    }
 
-        function showOddEven() {
-            let output = '';
-            for (let i = 0; i <= 100; i++) {
-                output += i + (i % 2 === 0 ? ' is even' : ' is odd') + '<br>';
-            }
-            document.getElementById('oddEvenOutput').innerHTML = output;
+    // Oppgave 2b
+    function passwordLimited() {
+      const riktigPassord = "Passord123";
+      let output = "";
+      let forsok = 0;
+      let passord;
+      while (forsok < 3) {
+        passord = prompt("Skriv inn passord (forsøk " + (forsok+1) + " av 3):");
+        if (passord === null) { // bruker avbrøt
+          output += "Avbrutt.";
+          break;
         }
+        if (passord === riktigPassord) {
+          output += "Riktig passord!";
+          break;
+        } else {
+          forsok++;
+          if (forsok < 3) {
+            output += "Feil passord! Prøv igjen.\n";
+          }
+        }
+      }
+      if (forsok === 3 && passord !== riktigPassord) {
+        output += "Du har brukt opp alle forsøkene.";
+      }
+      document.getElementById("output2").textContent = output;
+    }
 
-        function showMultiplicationTable() {
-            let output = '';
-            for (let i = 1; i <= 10; i++) {
-                for (let j = 1; j <= 10; j++) {
-                    output += (i * j) + '\t';
-                }
-                output += '\n';
-            }
-            document.getElementById('multiplicationTableOutput').innerText = output;
+    // Oppgave 3
+    function oddEvenOutput() {
+      let valg = document.querySelector('input[name="valg"]:checked').value;
+      let result = "";
+      if (valg === "oddetall") {
+        for (let i = 1; i <= 100; i += 2) {
+          result += i + " ";
         }
-    </script>
+      } else {
+        for (let i = 0; i <= 100; i += 2) {
+          result += i + " ";
+        }
+      }
+      document.getElementById("output3").textContent = result.trim();
+    }
+
+    // Oppgave 4
+    function gangetabellOutput() {
+      let result = "";
+      for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++) {
+          result += (i*j).toString().padStart(3, " ") + " ";
+        }
+        result += "\n";
+      }
+      document.getElementById("output4").textContent = result;
+    }
+  </script>
 </body>
 </html>
